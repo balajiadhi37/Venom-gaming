@@ -1,5 +1,5 @@
 export const STUDIO = {
-  name: "Venom Gaming",
+  name: "Venom Gaming chennai",
   tagline: "PS5 & PC gaming, the way it was meant to be played.",
   phone: "+91 98765 43210",
   email: "hello@venomgaming.com",

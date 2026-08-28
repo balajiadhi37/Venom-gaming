@@ -17,7 +17,7 @@ export default function Home() {
           <SpiderWeb className="web-tr" />
           <div className="container">
             <div className="hero-inner">
-              <span className="eyebrow">PS5 · Gaming PC · Coimbatore</span>
+              <span className="eyebrow">PS5 · Gaming PC · Chennai</span>
               <h1>
                 Enter the <span className="accent">Venom</span> gaming studio.
               </h1>
