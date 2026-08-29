@@ -4,20 +4,45 @@ import { useState } from "react";
 
 const EMPTY = { name: "", phone: "", platform: "PS5", message: "" };
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 export default function BookingForm() {
   const [form, setForm] = useState(EMPTY);
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [note, setNote] = useState("");
 
   function update(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }));
-    setSent(false);
+    if (status !== "sending") {
+      setStatus("idle");
+      setNote("");
+    }
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    // No backend yet — swap this for an API route or WhatsApp link when you are ready.
-    setSent(true);
-    setForm(EMPTY);
+    setStatus("sending");
+    setNote("");
+
+    try {
+      const res = await fetch(`${API_URL}/api/bookings`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        throw new Error(data.errors?.[0] || data.message || "Could not send your request.");
+      }
+
+      setForm(EMPTY);
+      setStatus("sent");
+      setNote(data.message || "Thanks! We will call you back to confirm your slot.");
+    } catch (err) {
+      setStatus("error");
+      setNote(err.message || "Could not reach the server. Please call us instead.");
+    }
   }
 
   return (
@@ -47,10 +72,10 @@ export default function BookingForm() {
         value={form.message}
         onChange={(e) => update("message", e.target.value)}
       />
-      <button className="btn btn-primary" type="submit">
-        Request booking
+      <button className="btn btn-primary" type="submit" disabled={status === "sending"}>
+        {status === "sending" ? "Sending..." : "Request booking"}
       </button>
-      {sent && <p className="form-note">Thanks! We will call you back to confirm your slot.</p>}
+      {note && <p className="form-note">{note}</p>}
     </form>
   );
 }
