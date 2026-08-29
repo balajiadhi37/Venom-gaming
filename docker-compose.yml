@@ -1,0 +1,20 @@
+# Local development services. Start with: docker compose up -d
+services:
+  mongo:
+    image: mongo:8
+    container_name: venom-gaming-mongo
+    restart: unless-stopped
+    ports:
+      # Loopback only — the database is not reachable from the local network.
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  mongo-data:
