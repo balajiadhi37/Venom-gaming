@@ -79,6 +79,10 @@ export default function BookingForm() {
       <button className="btn btn-primary" type="submit" disabled={status === "sending"}>
         {status === "sending" ? "Sending..." : "Request booking"}
       </button>
+      {/* Meta requires opt-in before a business may message a customer. */}
+      <p className="form-consent">
+        By requesting a booking you agree to receive a WhatsApp confirmation on this number.
+      </p>
       {note && <p className="form-note">{note}</p>}
     </form>
   );

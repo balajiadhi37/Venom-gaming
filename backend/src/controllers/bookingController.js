@@ -1,4 +1,5 @@
 const Booking = require("../models/Booking");
+const { sendBookingAcknowledgement } = require("../services/whatsapp");
 
 const asyncHandler = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
 
@@ -11,6 +12,13 @@ const createBooking = asyncHandler(async (req, res) => {
     message: "Byee.",
     data: booking,
   });
+
+  // Fire-and-forget, deliberately after the response: the acknowledgement must
+  // never add Meta's latency to the booking, nor turn a saved booking into an
+  // error. The service swallows everything; this .catch is a second line of
+  // defence — a rejection reaching errorHandler after headers were sent would
+  // abort the 201 the customer already has.
+  sendBookingAcknowledgement(booking).catch(() => {});
 });
 
 /** GET /api/bookings — admin. Supports ?status=&limit=&page= */

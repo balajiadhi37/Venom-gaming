@@ -582,6 +582,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 }
 .form textarea { min-height: 120px; resize: vertical; }
 .form-note { color: var(--venom-bright); font-size: 14px; margin: 0; }
+.form-consent { color: var(--muted); font-size: 12px; margin: 0; line-height: 1.5; }
 
 /* ---------- footer ---------- */
 .footer {
