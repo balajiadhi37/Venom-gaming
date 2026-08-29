@@ -1,0 +1,203 @@
+/* ============================================================
+   ADMIN PANEL — booking requests
+   Reuses the symbiote tokens from globals.css.
+   ============================================================ */
+
+.adm,
+.adm-gate {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 44px 20px 80px;
+}
+
+.adm h1,
+.adm-gate h1 {
+  font-size: clamp(30px, 6vw, 46px);
+  margin: 0 0 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-shadow: 0 0 24px rgba(176, 38, 255, .35);
+}
+.adm h1 .accent,
+.adm-gate h1 .accent {
+  color: var(--venom-bright);
+  text-shadow: 0 0 16px rgba(217, 70, 239, .6);
+}
+.adm-sub { color: var(--muted); margin: 0; }
+
+/* ---------- unlock screen ---------- */
+.adm-gate {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+.adm-gate-card {
+  width: min(420px, 100%);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, var(--panel-2), rgba(11, 6, 22, .85));
+  padding: 32px;
+  box-shadow: 0 0 46px rgba(176, 38, 255, .18);
+}
+.adm-gate-note { color: var(--muted); font-size: 14px; margin: 0; }
+.adm-gate-note code {
+  color: var(--venom-bright);
+  background: rgba(176, 38, 255, .1);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+/* ---------- top bar ---------- */
+.adm-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+.adm-top-actions { display: flex; gap: 10px; }
+.adm-top-actions .btn { padding: 10px 20px; font-size: 14px; }
+
+/* ---------- stat tiles ---------- */
+.adm-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 30px;
+}
+.adm-stat {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  background: linear-gradient(160deg, var(--panel), rgba(17, 10, 32, .5));
+}
+.adm-stat strong {
+  display: block;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 1.1;
+  color: var(--venom-bright);
+  text-shadow: 0 0 16px rgba(217, 70, 239, .5);
+}
+.adm-stat span {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.adm-stat.is-confirmed strong { color: #4ade80; text-shadow: 0 0 16px rgba(74, 222, 128, .4); }
+.adm-stat.is-cancelled strong { color: #f87171; text-shadow: 0 0 16px rgba(248, 113, 113, .4); }
+
+.adm-filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
+.adm-filters .filter-btn { text-transform: capitalize; }
+
+.adm-error {
+  color: #fca5a5;
+  background: rgba(248, 113, 113, .08);
+  border: 1px solid rgba(248, 113, 113, .35);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 0 0 18px;
+  font-size: 14px;
+}
+.adm-empty {
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 46px 20px;
+  text-align: center;
+}
+
+/* ---------- table ---------- */
+.adm-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, var(--panel-2), rgba(11, 6, 22, .85));
+}
+.adm-table-wrap[aria-busy="true"] { opacity: .55; }
+
+.adm-table { width: 100%; border-collapse: collapse; min-width: 900px; font-size: 14px; }
+.adm-table th {
+  text-align: left;
+  padding: 14px 16px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--venom-bright);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.adm-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+  color: var(--muted);
+}
+.adm-table tbody tr:last-child td { border-bottom: 0; }
+.adm-table tbody tr:hover { background: rgba(176, 38, 255, .05); }
+.adm-table tr.is-busy { opacity: .5; }
+
+.adm-date { white-space: nowrap; }
+.adm-name { color: var(--text); font-weight: 600; }
+.adm-phone { color: var(--text); border-bottom: 1px dashed var(--line); white-space: nowrap; }
+.adm-phone:hover { color: var(--venom-bright); }
+.adm-message { max-width: 320px; min-width: 200px; white-space: pre-wrap; }
+.adm-dim { color: #6d5f85; }
+
+.adm-pill {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(176, 38, 255, .06);
+  color: var(--muted);
+}
+.adm-pill.is-pending { color: #fbbf24; border-color: rgba(251, 191, 36, .4); background: rgba(251, 191, 36, .1); }
+.adm-pill.is-confirmed { color: #4ade80; border-color: rgba(74, 222, 128, .4); background: rgba(74, 222, 128, .1); }
+.adm-pill.is-cancelled { color: #f87171; border-color: rgba(248, 113, 113, .4); background: rgba(248, 113, 113, .1); }
+
+.adm-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.adm-btn {
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: rgba(176, 38, 255, .06);
+  color: var(--muted);
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background .15s ease;
+}
+.adm-btn:hover:not(:disabled) { color: var(--text); border-color: var(--venom); }
+.adm-btn:disabled { opacity: .45; cursor: not-allowed; }
+.adm-btn.is-confirm:hover:not(:disabled) { color: #4ade80; border-color: rgba(74, 222, 128, .6); }
+.adm-btn.is-cancel:hover:not(:disabled) { color: #fbbf24; border-color: rgba(251, 191, 36, .6); }
+.adm-btn.is-delete:hover:not(:disabled) { color: #f87171; border-color: rgba(248, 113, 113, .6); }
+
+/* ---------- pagination ---------- */
+.adm-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 26px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.adm-pager .btn { padding: 9px 18px; font-size: 13px; }
+.adm-pager .btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+@media (max-width: 860px) {
+  .adm-stats { grid-template-columns: repeat(2, 1fr); }
+}
