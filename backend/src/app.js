@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const bookingRoutes = require("./routes/bookings");
+const mailRoutes = require("./routes/mail");
 const { notFound, errorHandler } = require("./middleware/errorHandler");
 
 function buildAllowedOrigins() {
@@ -44,6 +45,7 @@ function createApp() {
   });
 
   app.use("/api/bookings", bookingRoutes);
+  app.use("/api/mail", mailRoutes);
 
   app.use(notFound);
   app.use(errorHandler);

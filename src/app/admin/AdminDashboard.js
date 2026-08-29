@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import BookingsTable from "./BookingsTable";
 import EmailDialog from "./EmailDialog";
+import MailSettings from "./MailSettings";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -63,12 +64,17 @@ export default function AdminDashboard() {
     setError(message);
   }, []);
 
+  // MailSettings does its own calls; give it the key without exposing state.
+  const boundFetch = useCallback(
+    (path, options) => apiFetch(path, adminKey, options),
+    [adminKey]
+  );
+
   const load = useCallback(async () => {
     if (!adminKey) return;
 
     setLoading(true);
     setError("");
-    setNotice("");
 
     const query = new URLSearchParams({ limit: String(PAGE_SIZE), page: String(page) });
     if (filter !== "all") query.set("status", filter);
@@ -126,6 +132,15 @@ export default function AdminDashboard() {
   function changeFilter(value) {
     setFilter(value);
     setPage(1);
+    setNotice("");
+  }
+
+  // load() deliberately leaves `notice` alone — it runs after MailSettings'
+  // effect and would wipe the "Gmail connected" message. Clear it here, where
+  // the admin has actually asked for something new.
+  function refresh() {
+    setNotice("");
+    load();
   }
 
   async function updateStatus(id, status) {
@@ -202,7 +217,7 @@ export default function AdminDashboard() {
           <p className="adm-sub">Everything submitted through the site&apos;s booking form.</p>
         </div>
         <div className="adm-top-actions">
-          <button className="btn btn-ghost" type="button" onClick={load} disabled={loading}>
+          <button className="btn btn-ghost" type="button" onClick={refresh} disabled={loading}>
             {loading ? "Loading..." : "Refresh"}
           </button>
           <button className="btn btn-ghost" type="button" onClick={() => signOut()}>
@@ -223,6 +238,8 @@ export default function AdminDashboard() {
           </div>
         ))}
       </section>
+
+      <MailSettings apiFetch={boundFetch} onNotice={setNotice} onError={setError} />
 
       <div className="adm-filters">
         {FILTERS.map((option) => (

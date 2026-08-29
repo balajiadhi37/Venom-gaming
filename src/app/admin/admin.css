@@ -277,3 +277,23 @@
 .adm-modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
 .adm-modal-actions .btn { padding: 10px 22px; font-size: 14px; }
 .adm-modal-actions .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+/* ---------- mail provider bar ---------- */
+.adm-mail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+  padding: 14px 18px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, var(--panel), rgba(17, 10, 32, .5));
+}
+.adm-mail-info { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.adm-mail-text { color: var(--muted); font-size: 14px; }
+.adm-mail-text strong { color: var(--text); font-weight: 600; }
+.adm-mail-actions { display: flex; gap: 10px; }
+.adm-mail-actions .btn { padding: 9px 18px; font-size: 13px; }
+.adm-mail-actions .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }

@@ -1,6 +1,6 @@
 const Booking = require("../models/Booking");
 const { sendBookingAcknowledgement } = require("../services/whatsapp");
-const { sendMail } = require("../services/mailer");
+const { sendMail, getProvider } = require("../services/mailer");
 
 const asyncHandler = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
 
@@ -110,7 +110,10 @@ const emailBooking = asyncHandler(async (req, res) => {
     console.error(`Email to ${booking.email} failed:`, err.message);
     return res.status(err.statusCode || 502).json({
       success: false,
-      message: err.statusCode === 503 ? err.message : "Could not send the email. Check the SMTP settings.",
+      message:
+        err.statusCode === 503
+          ? err.message
+          : `Could not send the email. Check the ${getProvider() === "gmail" ? "Gmail connection" : "SMTP settings"}.`,
     });
   }
 });
