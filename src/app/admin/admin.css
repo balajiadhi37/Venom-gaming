@@ -1,6 +1,6 @@
 /* ============================================================
    ADMIN PANEL — booking requests
-   Reuses the symbiote tokens from globals.css.
+   Reuses the tech tokens from globals.css.
    ============================================================ */
 
 .adm,
@@ -19,12 +19,12 @@
   margin: 0 0 8px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  text-shadow: 0 0 24px rgba(176, 38, 255, .35);
+  text-shadow: 0 0 24px rgba(29, 111, 232, .35);
 }
 .adm h1 .accent,
 .adm-gate h1 .accent {
-  color: var(--venom-bright);
-  text-shadow: 0 0 16px rgba(217, 70, 239, .6);
+  color: var(--tech-bright);
+  text-shadow: 0 0 16px rgba(56, 189, 248, .6);
 }
 .adm-sub { color: var(--muted); margin: 0; }
 
@@ -38,14 +38,14 @@
   width: min(420px, 100%);
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
-  background: linear-gradient(160deg, var(--panel-2), rgba(11, 6, 22, .85));
+  background: linear-gradient(160deg, var(--panel-2), rgba(10, 16, 28, .85));
   padding: 32px;
-  box-shadow: 0 0 46px rgba(176, 38, 255, .18);
+  box-shadow: 0 0 46px rgba(29, 111, 232, .18);
 }
 .adm-gate-note { color: var(--muted); font-size: 14px; margin: 0; }
 .adm-gate-note code {
-  color: var(--venom-bright);
-  background: rgba(176, 38, 255, .1);
+  color: var(--tech-bright);
+  background: rgba(29, 111, 232, .1);
   border-radius: 4px;
   padding: 1px 5px;
 }
@@ -73,7 +73,7 @@
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
   padding: 18px 20px;
-  background: linear-gradient(160deg, var(--panel), rgba(17, 10, 32, .5));
+  background: linear-gradient(160deg, var(--panel), rgba(15, 23, 37, .5));
 }
 .adm-stat strong {
   display: block;
@@ -81,8 +81,8 @@
   font-weight: 400;
   font-size: 34px;
   line-height: 1.1;
-  color: var(--venom-bright);
-  text-shadow: 0 0 16px rgba(217, 70, 239, .5);
+  color: var(--tech-bright);
+  text-shadow: 0 0 16px rgba(56, 189, 248, .5);
 }
 .adm-stat span {
   font-size: 12px;
@@ -118,7 +118,7 @@
   overflow-x: auto;
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
-  background: linear-gradient(160deg, var(--panel-2), rgba(11, 6, 22, .85));
+  background: linear-gradient(160deg, var(--panel-2), rgba(10, 16, 28, .85));
 }
 .adm-table-wrap[aria-busy="true"] { opacity: .55; }
 
@@ -129,7 +129,7 @@
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--venom-bright);
+  color: var(--tech-bright);
   border-bottom: 1px solid var(--line);
   white-space: nowrap;
 }
@@ -140,15 +140,15 @@
   color: var(--muted);
 }
 .adm-table tbody tr:last-child td { border-bottom: 0; }
-.adm-table tbody tr:hover { background: rgba(176, 38, 255, .05); }
+.adm-table tbody tr:hover { background: rgba(29, 111, 232, .05); }
 .adm-table tr.is-busy { opacity: .5; }
 
 .adm-date { white-space: nowrap; }
 .adm-name { color: var(--text); font-weight: 600; }
 .adm-phone { color: var(--text); border-bottom: 1px dashed var(--line); white-space: nowrap; }
-.adm-phone:hover { color: var(--venom-bright); }
+.adm-phone:hover { color: var(--tech-bright); }
 .adm-message { max-width: 320px; min-width: 200px; white-space: pre-wrap; }
-.adm-dim { color: #6d5f85; }
+.adm-dim { color: #6b7d95; }
 
 .adm-pill {
   display: inline-block;
@@ -158,7 +158,7 @@
   padding: 4px 12px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: rgba(176, 38, 255, .06);
+  background: rgba(29, 111, 232, .06);
   color: var(--muted);
 }
 .adm-pill.is-pending { color: #fbbf24; border-color: rgba(251, 191, 36, .4); background: rgba(251, 191, 36, .1); }
@@ -174,12 +174,12 @@
   padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid var(--line);
-  background: rgba(176, 38, 255, .06);
+  background: rgba(29, 111, 232, .06);
   color: var(--muted);
   cursor: pointer;
   transition: color .15s ease, border-color .15s ease, background .15s ease;
 }
-.adm-btn:hover:not(:disabled) { color: var(--text); border-color: var(--venom); }
+.adm-btn:hover:not(:disabled) { color: var(--text); border-color: var(--tech); }
 .adm-btn:disabled { opacity: .45; cursor: not-allowed; }
 .adm-btn.is-confirm:hover:not(:disabled) { color: #4ade80; border-color: rgba(74, 222, 128, .6); }
 .adm-btn.is-cancel:hover:not(:disabled) { color: #fbbf24; border-color: rgba(251, 191, 36, .6); }
@@ -213,17 +213,17 @@
   font-size: 14px;
 }
 
-.adm-btn.is-email:hover:not(:disabled) { color: var(--venom-bright); border-color: var(--venom); }
+.adm-btn.is-email:hover:not(:disabled) { color: var(--tech-bright); border-color: var(--tech); }
 
 /* ---------- email compose dialog ---------- */
 .adm-modal {
   position: fixed;
   inset: 0;
-  z-index: 10000; /* above .fx-layer (9999), so click splatter stays behind it */
+  z-index: 10000; /* above .fx-layer (9999), so click sparks stay behind it */
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(5, 3, 10, .88);
+  background: rgba(5, 8, 15, .88);
   backdrop-filter: blur(8px);
   overflow-y: auto;
 }
@@ -234,8 +234,8 @@
   padding: 30px;
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
-  background: linear-gradient(160deg, var(--panel-2), rgba(11, 6, 22, .95));
-  box-shadow: 0 0 46px rgba(176, 38, 255, .22);
+  background: linear-gradient(160deg, var(--panel-2), rgba(10, 16, 28, .95));
+  box-shadow: 0 0 46px rgba(29, 111, 232, .22);
 }
 .adm-modal-panel h2 {
   margin: 0;
@@ -243,7 +243,7 @@
   letter-spacing: 1.5px;
   text-transform: uppercase;
 }
-.adm-modal-panel h2 .accent { color: var(--venom-bright); }
+.adm-modal-panel h2 .accent { color: var(--tech-bright); }
 .adm-modal-to {
   margin: -10px 0 0;
   color: var(--muted);
@@ -254,12 +254,12 @@
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--venom-bright);
+  color: var(--tech-bright);
 }
 .adm-field input,
 .adm-field textarea {
   width: 100%;
-  background: rgba(5, 3, 10, .7);
+  background: rgba(5, 8, 15, .7);
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 12px;
@@ -271,8 +271,8 @@
 .adm-field input:focus,
 .adm-field textarea:focus {
   outline: none;
-  border-color: var(--venom);
-  box-shadow: 0 0 18px rgba(176, 38, 255, .25);
+  border-color: var(--tech);
+  box-shadow: 0 0 18px rgba(29, 111, 232, .25);
 }
 .adm-modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
 .adm-modal-actions .btn { padding: 10px 22px; font-size: 14px; }
@@ -289,7 +289,7 @@
   padding: 14px 18px;
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
-  background: linear-gradient(160deg, var(--panel), rgba(17, 10, 32, .5));
+  background: linear-gradient(160deg, var(--panel), rgba(15, 23, 37, .5));
 }
 .adm-mail-info { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .adm-mail-text { color: var(--muted); font-size: 14px; }

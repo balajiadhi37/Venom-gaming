@@ -1,27 +1,35 @@
 /* ============================================================
-   VENOM GAMING — symbiote theme
-   Black + violet, paint splatter, spider silk.
+   VENOM GAMING — tech theme
+   Graphite blue + brushed silver, circuit grid, scanlines.
    ============================================================ */
 
 :root {
-  --bg: #05030a;
-  --bg-soft: #0b0616;
-  --panel: #110a20;
-  --panel-2: #170d2b;
-  --line: #2c1a4d;
-  --line-soft: #1e1235;
+  --bg: #05080f;
+  --bg-soft: #0a101c;
+  --panel: #0f1725;
+  --panel-2: #141d2e;
+  --line: #274162;
+  --line-soft: #1b2a40;
 
-  --text: #efe9fb;
-  --muted: #9c8fb8;
+  --text: #e8eef7;
+  --muted: #93a4bd;
 
-  --venom: #b026ff;        /* electric symbiote violet */
-  --venom-bright: #d946ef; /* magenta highlight */
-  --venom-deep: #6d16b8;
-  --venom-ink: #2a0a4a;
+  --tech: #1d6fe8;        /* electric blue — primary accent */
+  --tech-bright: #38bdf8; /* cyan highlight */
+  --tech-deep: #0f3f8f;   /* deep blue for borders and shadows */
+  --tech-ink: #0a1f45;
 
-  --radius: 14px;
+  /* Brushed metal. --silver-edge is the specular line along a lit top edge. */
+  --silver: #c8d3e0;
+  --silver-bright: #eef3f9;
+  --silver-dim: #8fa0b5;
+  --silver-edge: rgba(255, 255, 255, .16);
+
+  --radius: 10px;
   --max: 1150px;
   --display: var(--font-display), "Arial Narrow", Impact, sans-serif;
+  /* Machine voice for labels, badges and readouts. */
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
 }
 
 * { box-sizing: border-box; }
@@ -31,13 +39,17 @@ html, body { padding: 0; margin: 0; }
 body {
   position: relative;
   background-color: var(--bg);
-  /* Violet paint splatter bleeding through the black. */
+  /* Blueprint grid, lit from behind by cool pools of blue. The two 64px
+     line layers sit first so the glow gradients wash over them. */
   background-image:
-    radial-gradient(38% 26% at 12% 8%, rgba(176, 38, 255, .30), transparent 70%),
-    radial-gradient(30% 22% at 88% 4%, rgba(217, 70, 239, .24), transparent 70%),
-    radial-gradient(45% 30% at 78% 42%, rgba(109, 22, 184, .22), transparent 70%),
-    radial-gradient(35% 25% at 8% 62%, rgba(176, 38, 255, .18), transparent 70%),
-    radial-gradient(40% 28% at 60% 92%, rgba(217, 70, 239, .16), transparent 70%);
+    linear-gradient(rgba(56, 189, 248, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, .045) 1px, transparent 1px),
+    radial-gradient(38% 26% at 12% 8%, rgba(29, 111, 232, .22), transparent 70%),
+    radial-gradient(30% 22% at 88% 4%, rgba(56, 189, 248, .16), transparent 70%),
+    radial-gradient(45% 30% at 78% 42%, rgba(15, 63, 143, .26), transparent 70%),
+    radial-gradient(35% 25% at 8% 62%, rgba(29, 111, 232, .14), transparent 70%),
+    radial-gradient(40% 28% at 60% 92%, rgba(56, 189, 248, .12), transparent 70%);
+  background-size: 64px 64px, 64px 64px, auto, auto, auto, auto, auto;
   background-attachment: fixed;
   color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -46,16 +58,23 @@ body {
   overflow-x: hidden;
 }
 
-/* Grunge film over everything, like the scratched poster background. */
+/* CRT scanlines plus a trace of sensor noise, so flat panels read as screens
+   rather than paper. Both stay under .07 alpha — any heavier and body text
+   picks up a visible shimmer. */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 3;
   pointer-events: none;
-  opacity: .11;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: .5;
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, .028) 0 1px,
+      transparent 1px 3px
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
 }
 
 a { color: inherit; text-decoration: none; }
@@ -81,22 +100,22 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   position: absolute;
   width: 400px;
   height: 400px;
-  stroke: rgba(255, 255, 255, .85);
-  stroke-width: 1.6;
+  stroke: var(--silver);
+  stroke-width: 1.1;
   fill: none;
   pointer-events: none;
   z-index: 1;
-  filter: drop-shadow(0 0 6px rgba(176, 38, 255, .5));
+  filter: drop-shadow(0 0 7px rgba(56, 189, 248, .55));
 }
-.web-tl { top: -60px; left: -70px; opacity: .5; }
-.web-tr { top: -40px; right: -80px; transform: scaleX(-1); opacity: .38; }
-.web-br { bottom: -90px; right: -60px; transform: scale(-1, -1); opacity: .28; }
+.web-tl { top: -60px; left: -70px; opacity: .28; }
+.web-tr { top: -40px; right: -80px; transform: scaleX(-1); opacity: .2; }
+.web-br { bottom: -90px; right: -60px; transform: scale(-1, -1); opacity: .16; }
 
 /* ---------- buttons ---------- */
 .btn {
   display: inline-block;
   padding: 13px 26px;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 17px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -106,18 +125,19 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 }
 .btn:hover { transform: translateY(-2px); }
 .btn-primary {
-  background: linear-gradient(135deg, var(--venom), var(--venom-bright));
+  background: linear-gradient(135deg, var(--tech), var(--tech-bright));
   color: #fff;
   text-shadow: 0 1px 6px rgba(0, 0, 0, .5);
-  box-shadow: 0 0 26px rgba(176, 38, 255, .45);
+  box-shadow: 0 0 26px rgba(29, 111, 232, .45),
+              inset 0 1px 0 var(--silver-edge);
 }
-.btn-primary:hover { box-shadow: 0 0 40px rgba(217, 70, 239, .7); }
+.btn-primary:hover { box-shadow: 0 0 40px rgba(56, 189, 248, .7); }
 .btn-ghost {
   border-color: var(--line);
   color: var(--text);
-  background: rgba(176, 38, 255, .07);
+  background: rgba(29, 111, 232, .07);
 }
-.btn-ghost:hover { border-color: var(--venom); box-shadow: 0 0 22px rgba(176, 38, 255, .25); }
+.btn-ghost:hover { border-color: var(--tech); box-shadow: 0 0 22px rgba(29, 111, 232, .25); }
 
 /* ---------- header ---------- */
 .header {
@@ -125,7 +145,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   top: 0;
   z-index: 50;
   backdrop-filter: blur(14px);
-  background: rgba(5, 3, 10, .82);
+  background: rgba(5, 8, 15, .82);
   border-bottom: 1px solid var(--line-soft);
 }
 .header-inner {
@@ -153,7 +173,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   cursor: pointer;
 }
 .logo:focus-visible {
-  outline: 2px solid var(--venom-bright);
+  outline: 2px solid var(--tech-bright);
   outline-offset: 4px;
   border-radius: 10px;
 }
@@ -162,12 +182,12 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   flex: none;
   border-radius: 9px;
   object-fit: cover;
-  background: linear-gradient(140deg, var(--venom), var(--venom-bright));
-  box-shadow: 0 0 18px rgba(176, 38, 255, .55);
+  background: linear-gradient(140deg, var(--tech), var(--tech-bright));
+  box-shadow: 0 0 18px rgba(29, 111, 232, .55);
 }
 .logo .accent {
-  color: var(--venom-bright);
-  text-shadow: 0 0 14px rgba(217, 70, 239, .6);
+  color: var(--tech-bright);
+  text-shadow: 0 0 14px rgba(56, 189, 248, .6);
 }
 .nav {
   display: flex;
@@ -178,10 +198,10 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   color: var(--muted);
 }
 .nav a { transition: color .15s ease, text-shadow .15s ease; }
-.nav a:hover { color: var(--venom-bright); text-shadow: 0 0 12px rgba(217, 70, 239, .6); }
+.nav a:hover { color: var(--tech-bright); text-shadow: 0 0 12px rgba(56, 189, 248, .6); }
 
 /* ---------- logo lightbox ---------- */
-/* Sits above .fx-layer (9999) so click splatter never lands on the artwork. */
+/* Sits above .fx-layer (9999) so click sparks never land on the artwork. */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -189,7 +209,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(5, 3, 10, .88);
+  background: rgba(5, 8, 15, .88);
   backdrop-filter: blur(8px);
 }
 .lightbox-panel {
@@ -200,8 +220,8 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   padding: 28px;
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
-  background: linear-gradient(160deg, var(--panel-2), rgba(11, 6, 22, .85));
-  box-shadow: 0 0 46px rgba(176, 38, 255, .28);
+  background: linear-gradient(160deg, var(--panel-2), rgba(10, 16, 28, .85));
+  box-shadow: 0 0 46px rgba(29, 111, 232, .28);
 }
 /* max-* only ever shrinks. With no width/height set the image renders at its
    intrinsic size, so the 100x100 logo stays crisp and is never blown up —
@@ -217,8 +237,8 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   font-size: 18px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--venom-bright);
-  text-shadow: 0 0 14px rgba(217, 70, 239, .5);
+  color: var(--tech-bright);
+  text-shadow: 0 0 14px rgba(56, 189, 248, .5);
 }
 .lightbox-close {
   position: absolute;
@@ -234,7 +254,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   line-height: 1;
   cursor: pointer;
 }
-.lightbox-close:hover { border-color: var(--venom); color: var(--venom-bright); }
+.lightbox-close:hover { border-color: var(--tech); color: var(--tech-bright); }
 
 /* ---------- hero ---------- */
 .hero {
@@ -243,7 +263,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   min-height: min(86vh, 800px);
   overflow: hidden;
 }
-/* Symbiote cover art behind the headline (public/hero.jpg). The scrim is
+/* Cover art behind the headline (public/hero.jpg). The scrim is
    heaviest on the left so the copy stays readable while the figure looms. */
 .hero::before {
   content: "";
@@ -252,9 +272,9 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   z-index: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(102deg, rgba(5, 3, 10, .95) 0%, rgba(5, 3, 10, .84) 34%,
-                    rgba(5, 3, 10, .58) 64%, rgba(5, 3, 10, .48) 100%),
-    radial-gradient(64% 58% at 60% 42%, rgba(176, 38, 255, .22), transparent 70%),
+    linear-gradient(102deg, rgba(5, 8, 15, .95) 0%, rgba(5, 8, 15, .84) 34%,
+                    rgba(5, 8, 15, .58) 64%, rgba(5, 8, 15, .48) 100%),
+    radial-gradient(64% 58% at 60% 42%, rgba(29, 111, 232, .22), transparent 70%),
     url("/hero.jpg");
   background-repeat: no-repeat;
   background-size: cover, cover, cover;
@@ -274,15 +294,16 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 .hero-inner { position: relative; z-index: 2; max-width: 820px; }
 .eyebrow {
   display: inline-block;
+  font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: var(--venom-bright);
+  color: var(--tech-bright);
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 7px 18px;
   margin-bottom: 26px;
-  background: rgba(176, 38, 255, .08);
+  background: rgba(29, 111, 232, .08);
 }
 .hero h1 {
   font-size: clamp(46px, 10vw, 108px);
@@ -291,14 +312,16 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   letter-spacing: 2px;
   text-transform: uppercase;
 }
-/* The glossy black symbiote lettering from the poster. */
+/* Brushed chrome lettering: the hard stop at 50% is the horizon line that
+   sells it as polished metal rather than a soft gradient. */
 .hero h1 .accent {
-  background: linear-gradient(180deg, #3a1160 0%, #150524 45%, #0a0212 60%, #2b0c4d 100%);
+  background: linear-gradient(180deg,
+              #f4f8fc 0%, #b9c7d8 46%, #5f7189 50%, #97a9bf 62%, #e6eef7 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(217, 70, 239, .85);
-  filter: drop-shadow(0 0 18px rgba(176, 38, 255, .75))
+  -webkit-text-stroke: 1.5px rgba(56, 189, 248, .85);
+  filter: drop-shadow(0 0 18px rgba(29, 111, 232, .75))
           drop-shadow(0 2px 2px rgba(0, 0, 0, .9));
 }
 .hero p {
@@ -321,15 +344,16 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
   padding: 20px;
-  background: linear-gradient(160deg, var(--panel), rgba(17, 10, 32, .5));
+  background: linear-gradient(160deg, var(--panel), rgba(15, 23, 37, .5));
+  box-shadow: inset 0 1px 0 var(--silver-edge);
   transition: border-color .2s ease, box-shadow .2s ease;
 }
-.stat:hover { border-color: var(--venom-deep); box-shadow: 0 0 26px rgba(176, 38, 255, .18); }
+.stat:hover { border-color: var(--tech-deep); box-shadow: 0 0 26px rgba(29, 111, 232, .18); }
 .stat strong {
   display: block;
   font-size: 32px;
-  color: var(--venom-bright);
-  text-shadow: 0 0 16px rgba(217, 70, 239, .5);
+  color: var(--tech-bright);
+  text-shadow: 0 0 16px rgba(56, 189, 248, .5);
   line-height: 1.1;
 }
 .stat span { font-size: 13px; color: var(--muted); letter-spacing: .5px; }
@@ -337,7 +361,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 /* ---------- sections ---------- */
 .section { position: relative; padding: 88px 0; overflow: hidden; }
 .section.alt {
-  background: rgba(11, 6, 22, .72);
+  background: rgba(10, 16, 28, .72);
   border-top: 1px solid var(--line-soft);
   border-bottom: 1px solid var(--line-soft);
 }
@@ -347,7 +371,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   margin: 0 0 14px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  text-shadow: 0 0 24px rgba(176, 38, 255, .35);
+  text-shadow: 0 0 24px rgba(29, 111, 232, .35);
 }
 .section-head p { color: var(--muted); margin: 0; }
 
@@ -358,35 +382,38 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   position: relative;
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
-  background: linear-gradient(160deg, var(--panel-2), rgba(11, 6, 22, .85));
+  background: linear-gradient(160deg, var(--panel-2), rgba(10, 16, 28, .85));
   padding: 28px;
+  box-shadow: inset 0 1px 0 var(--silver-edge);
   transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
 }
 .card:hover {
-  border-color: var(--venom-deep);
+  border-color: var(--tech-deep);
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(109, 22, 184, .28);
+  box-shadow: 0 12px 40px rgba(15, 63, 143, .28),
+              inset 0 1px 0 var(--silver-edge);
 }
 .card h3 { margin: 0 0 12px; font-size: 24px; letter-spacing: 1px; text-transform: uppercase; }
 .card p { color: var(--muted); margin: 0 0 18px; }
 .card-icon {
   font-size: 30px;
   margin-bottom: 16px;
-  filter: drop-shadow(0 0 12px rgba(176, 38, 255, .6));
+  filter: drop-shadow(0 0 12px rgba(29, 111, 232, .6));
 }
 .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
 .tag {
+  font-family: var(--mono);
   font-size: 12px;
   padding: 5px 12px;
   border-radius: 999px;
   border: 1px solid var(--line);
   color: var(--muted);
-  background: rgba(176, 38, 255, .06);
+  background: rgba(29, 111, 232, .06);
 }
 .tag.hot {
-  color: var(--venom-bright);
-  border-color: var(--venom-deep);
-  background: rgba(217, 70, 239, .1);
+  color: var(--tech-bright);
+  border-color: var(--tech-deep);
+  background: rgba(56, 189, 248, .1);
 }
 
 /* ---------- games ---------- */
@@ -394,7 +421,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   position: relative;
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
-  background: linear-gradient(160deg, var(--panel-2), rgba(11, 6, 22, .85));
+  background: linear-gradient(160deg, var(--panel-2), rgba(10, 16, 28, .85));
   overflow: hidden;
   cursor: pointer;
   outline: none;
@@ -403,10 +430,10 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 .game-card:hover,
 .game-card:focus-visible {
   transform: translateY(-6px);
-  border-color: var(--venom-deep);
-  box-shadow: 0 14px 44px rgba(109, 22, 184, .3);
+  border-color: var(--tech-deep);
+  box-shadow: 0 14px 44px rgba(15, 63, 143, .3);
 }
-.game-card:focus-visible { border-color: var(--venom-bright); }
+.game-card:focus-visible { border-color: var(--tech-bright); }
 
 /* Pointer-tracked spotlight, driven by --mx / --my from ClickFX. */
 .card::before,
@@ -419,21 +446,21 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   opacity: 0;
   transition: opacity .3s ease;
   background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%),
-              rgba(217, 70, 239, .18), transparent 70%);
+              rgba(56, 189, 248, .18), transparent 70%);
 }
 .card:hover::before,
 .game-card:hover::before { opacity: 1; }
 .card > *:not(.price-badge),
 .game-card > * { position: relative; z-index: 1; }
 
-/* Picked state: the symbiote latches on. */
+/* Picked state: the card locks on. */
 .game-card.picked {
-  border-color: var(--venom-bright);
-  box-shadow: 0 0 0 1px var(--venom-bright), 0 16px 50px rgba(217, 70, 239, .38);
+  border-color: var(--tech-bright);
+  box-shadow: 0 0 0 1px var(--tech-bright), 0 16px 50px rgba(56, 189, 248, .38);
 }
 .game-card.picked .game-img { transform: scale(1.06); filter: saturate(1.25); }
 .game-card.picked .tag.hot {
-  background: linear-gradient(135deg, var(--venom), var(--venom-bright));
+  background: linear-gradient(135deg, var(--tech), var(--tech-bright));
   color: #fff;
   border-color: transparent;
 }
@@ -445,8 +472,8 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   place-items: center;
   overflow: hidden;
   background:
-    radial-gradient(60% 80% at 30% 20%, rgba(217, 70, 239, .28), transparent 70%),
-    linear-gradient(140deg, rgba(176, 38, 255, .22), rgba(10, 2, 18, .6));
+    radial-gradient(60% 80% at 30% 20%, rgba(56, 189, 248, .28), transparent 70%),
+    linear-gradient(140deg, rgba(29, 111, 232, .22), rgba(8, 14, 24, .6));
   border-bottom: 1px solid var(--line-soft);
 }
 .game-img {
@@ -472,14 +499,15 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   top: 12px;
   left: 12px;
   z-index: 2;
+  font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
   padding: 4px 11px;
   border-radius: 999px;
   color: #fff;
-  background: rgba(5, 3, 10, .72);
-  border: 1px solid var(--venom-deep);
+  background: rgba(5, 8, 15, .72);
+  border: 1px solid var(--tech-deep);
   backdrop-filter: blur(6px);
 }
 .game-body { padding: 18px 18px 22px; }
@@ -489,16 +517,16 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 .art-credit {
   margin: 26px 0 0;
   font-size: 12px;
-  color: #6d5f85;
+  color: #6b7d95;
   letter-spacing: .3px;
 }
 
 .filter-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; }
 .filter-btn {
   padding: 10px 22px;
-  border-radius: 6px;
+  border-radius: 4px;
   border: 1px solid var(--line);
-  background: rgba(176, 38, 255, .05);
+  background: rgba(29, 111, 232, .05);
   color: var(--muted);
   font-size: 14px;
   letter-spacing: 1.5px;
@@ -506,24 +534,24 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   cursor: pointer;
   transition: all .15s ease;
 }
-.filter-btn:hover { color: var(--text); border-color: var(--venom); }
+.filter-btn:hover { color: var(--text); border-color: var(--tech); }
 .filter-btn.active {
-  background: linear-gradient(135deg, var(--venom), var(--venom-bright));
+  background: linear-gradient(135deg, var(--tech), var(--tech-bright));
   color: #fff;
   border-color: transparent;
-  box-shadow: 0 0 24px rgba(176, 38, 255, .45);
+  box-shadow: 0 0 24px rgba(29, 111, 232, .45);
 }
 
 /* ---------- pricing ---------- */
 .price-card { position: relative; }
 .price-card.featured {
-  border-color: var(--venom-deep);
-  box-shadow: 0 0 46px rgba(176, 38, 255, .22);
+  border-color: var(--tech-deep);
+  box-shadow: 0 0 46px rgba(29, 111, 232, .22);
 }
 .price-badge {
   position: absolute;
   top: -13px; right: 20px;
-  background: linear-gradient(135deg, var(--venom), var(--venom-bright));
+  background: linear-gradient(135deg, var(--tech), var(--tech-bright));
   color: #fff;
   font-size: 11px;
   font-weight: 700;
@@ -531,13 +559,13 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   text-transform: uppercase;
   padding: 5px 14px;
   border-radius: 999px;
-  box-shadow: 0 0 18px rgba(217, 70, 239, .5);
+  box-shadow: 0 0 18px rgba(56, 189, 248, .5);
   z-index: 2;
 }
 .price {
   font-size: 46px;
-  color: var(--venom-bright);
-  text-shadow: 0 0 22px rgba(217, 70, 239, .5);
+  color: var(--tech-bright);
+  text-shadow: 0 0 22px rgba(56, 189, 248, .5);
   margin: 8px 0 4px;
   line-height: 1.1;
 }
@@ -549,13 +577,14 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 }
 .price-list { list-style: none; padding: 0; margin: 20px 0 26px; color: var(--muted); font-size: 15px; }
 .price-list li { padding: 8px 0; border-bottom: 1px dashed var(--line-soft); }
-.price-list li::before { content: "\25B8  "; color: var(--venom-bright); }
+.price-list li::before { content: "\25B8  "; color: var(--tech-bright); }
 
 /* ---------- contact ---------- */
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: start; }
 .info-row { display: flex; gap: 14px; padding: 15px 0; border-bottom: 1px solid var(--line-soft); }
 .info-row .label {
-  color: var(--venom-bright);
+  color: var(--tech-bright);
+  font-family: var(--mono);
   min-width: 100px;
   font-size: 12px;
   letter-spacing: 2px;
@@ -566,7 +595,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 .form { display: grid; gap: 14px; }
 .form input, .form textarea, .form select {
   width: 100%;
-  background: rgba(5, 3, 10, .7);
+  background: rgba(5, 8, 15, .7);
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 14px;
@@ -574,14 +603,14 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   font: inherit;
   font-size: 15px;
 }
-.form input::placeholder, .form textarea::placeholder { color: #6d5f85; }
+.form input::placeholder, .form textarea::placeholder { color: #6b7d95; }
 .form input:focus, .form textarea:focus, .form select:focus {
   outline: none;
-  border-color: var(--venom);
-  box-shadow: 0 0 18px rgba(176, 38, 255, .25);
+  border-color: var(--tech);
+  box-shadow: 0 0 18px rgba(29, 111, 232, .25);
 }
 .form textarea { min-height: 120px; resize: vertical; }
-.form-note { color: var(--venom-bright); font-size: 14px; margin: 0; }
+.form-note { color: var(--tech-bright); font-size: 14px; margin: 0; }
 .form-consent { color: var(--muted); font-size: 12px; margin: 0; line-height: 1.5; }
 
 /* ---------- footer ---------- */
@@ -589,7 +618,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   position: relative;
   border-top: 1px solid var(--line-soft);
   padding: 36px 0;
-  background: rgba(5, 3, 10, .85);
+  background: rgba(5, 8, 15, .85);
   overflow: hidden;
 }
 .footer-inner {
@@ -600,7 +629,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   color: var(--muted);
   font-size: 14px;
 }
-.footer a:hover { color: var(--venom-bright); }
+.footer a:hover { color: var(--tech-bright); }
 
 /* ---------- responsive ---------- */
 @media (max-width: 860px) {
@@ -614,8 +643,8 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   .hero { min-height: auto; }
   .hero::before {
     background-image:
-      linear-gradient(to bottom, rgba(5, 3, 10, .82) 0%, rgba(5, 3, 10, .9) 55%,
-                      rgba(5, 3, 10, .96) 100%),
+      linear-gradient(to bottom, rgba(5, 8, 15, .82) 0%, rgba(5, 8, 15, .9) 55%,
+                      rgba(5, 8, 15, .96) 100%),
       url("/hero.jpg");
     background-size: cover, cover;
     background-position: center, center 28%;
@@ -626,7 +655,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 }
 
 /* ============================================================
-   CLICK EFFECTS — venom splatter, ripples and press feedback
+   CLICK EFFECTS — energy pulse, ripples and press feedback
    ============================================================ */
 
 /* Fixed layer the ClickFX component paints bursts into. */
@@ -639,15 +668,15 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 }
 .fx-burst { position: absolute; width: 0; height: 0; }
 
-/* Expanding symbiote shockwave ring. */
+/* Expanding shockwave ring. */
 .fx-ring {
   position: absolute;
   left: 0; top: 0;
   width: 18px; height: 18px;
   margin: -9px 0 0 -9px;
   border-radius: 50%;
-  border: 2px solid var(--venom-bright);
-  box-shadow: 0 0 22px rgba(217, 70, 239, .85), inset 0 0 14px rgba(176, 38, 255, .7);
+  border: 2px solid var(--tech-bright);
+  box-shadow: 0 0 22px rgba(56, 189, 248, .85), inset 0 0 14px rgba(29, 111, 232, .7);
   animation: fx-ring .58s cubic-bezier(.2, .7, .3, 1) forwards;
 }
 @keyframes fx-ring {
@@ -663,9 +692,9 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   width: var(--s, 8px);
   height: var(--s, 8px);
   margin: calc(var(--s, 8px) / -2) 0 0 calc(var(--s, 8px) / -2);
-  border-radius: 55% 45% 52% 48%;
-  background: radial-gradient(circle at 35% 30%, var(--venom-bright), var(--venom-deep));
-  box-shadow: 0 0 12px rgba(176, 38, 255, .8);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--silver-bright), var(--tech-bright) 45%, var(--tech-deep));
+  box-shadow: 0 0 12px rgba(29, 111, 232, .8);
   transform: rotate(var(--a, 0deg)) translateX(0) scale(.3);
   animation: fx-drop .72s cubic-bezier(.15, .75, .3, 1) forwards;
 }
@@ -675,12 +704,12 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   100% { transform: rotate(var(--a)) translateX(var(--d, 50px)) scale(.15); opacity: 0; }
 }
 
-/* The clicked surface pulses violet for half a second. */
+/* The clicked surface pulses blue for half a second. */
 .fx-pressed { animation: fx-pressed .5s ease-out; }
 @keyframes fx-pressed {
-  0%   { box-shadow: 0 0 0 0 rgba(217, 70, 239, .55); }
-  40%  { box-shadow: 0 0 0 10px rgba(217, 70, 239, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(217, 70, 239, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(56, 189, 248, .55); }
+  40%  { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
 }
 
 /* Physical press: everything clickable sinks a little. */
@@ -694,18 +723,18 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 .hero h1 .accent {
   position: relative;
   display: inline-block;
-  animation: symbiote-breathe 4.5s ease-in-out infinite;
+  animation: chrome-breathe 4.5s ease-in-out infinite;
 }
-@keyframes symbiote-breathe {
-  0%, 100% { filter: drop-shadow(0 0 18px rgba(176, 38, 255, .75)) drop-shadow(0 2px 2px rgba(0, 0, 0, .9)); }
-  50%      { filter: drop-shadow(0 0 34px rgba(217, 70, 239, .95)) drop-shadow(0 2px 2px rgba(0, 0, 0, .9)); }
+@keyframes chrome-breathe {
+  0%, 100% { filter: drop-shadow(0 0 18px rgba(29, 111, 232, .75)) drop-shadow(0 2px 2px rgba(0, 0, 0, .9)); }
+  50%      { filter: drop-shadow(0 0 34px rgba(56, 189, 248, .95)) drop-shadow(0 2px 2px rgba(0, 0, 0, .9)); }
 }
 /* Chromatic ghost that jitters like a bad signal. */
 .hero h1 .accent::after {
   content: attr(data-text);
   position: absolute;
   inset: 0;
-  color: rgba(217, 70, 239, .55);
+  color: rgba(56, 189, 248, .55);
   -webkit-text-stroke: 0;
   filter: none;
   clip-path: inset(0 0 55% 0);
@@ -721,14 +750,14 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 
 .logo-mark { animation: mark-pulse 3.4s ease-in-out infinite; }
 @keyframes mark-pulse {
-  0%, 100% { box-shadow: 0 0 18px rgba(176, 38, 255, .55); }
-  50%      { box-shadow: 0 0 30px rgba(217, 70, 239, .9); }
+  0%, 100% { box-shadow: 0 0 18px rgba(29, 111, 232, .55); }
+  50%      { box-shadow: 0 0 30px rgba(56, 189, 248, .9); }
 }
 
 .eyebrow { animation: eyebrow-glow 3s ease-in-out infinite; }
 @keyframes eyebrow-glow {
-  0%, 100% { box-shadow: 0 0 0 rgba(176, 38, 255, 0); }
-  50%      { box-shadow: 0 0 22px rgba(176, 38, 255, .35); }
+  0%, 100% { box-shadow: 0 0 0 rgba(29, 111, 232, 0); }
+  50%      { box-shadow: 0 0 22px rgba(29, 111, 232, .35); }
 }
 
 /* Webs drift slowly, like silk in a draught. */

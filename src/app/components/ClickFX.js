@@ -5,7 +5,7 @@ import { useEffect } from "react";
 const DROPS = 9;
 const LIFETIME = 900; // ms, must outlast the longest CSS animation below
 
-// Global click feedback: a venom ring plus a splatter of symbiote droplets at
+// Global click feedback: an energy ring plus a burst of sparks at
 // the pointer, and a spotlight that follows the pointer across cards.
 export default function ClickFX() {
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function ClickFX() {
         const drop = document.createElement("span");
         drop.className = "fx-drop";
         // Spread the droplets around the click with a bit of randomness so no
-        // two clicks splatter the same way.
+        // two clicks burst the same way.
         const angle = (360 / DROPS) * i + (Math.random() * 26 - 13);
         const distance = 34 + Math.random() * 56;
         const size = 5 + Math.random() * 9;
