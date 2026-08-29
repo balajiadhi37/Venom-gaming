@@ -201,3 +201,79 @@
 @media (max-width: 860px) {
   .adm-stats { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ---------- success notice ---------- */
+.adm-notice {
+  color: #4ade80;
+  background: rgba(74, 222, 128, .08);
+  border: 1px solid rgba(74, 222, 128, .35);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 0 0 18px;
+  font-size: 14px;
+}
+
+.adm-btn.is-email:hover:not(:disabled) { color: var(--venom-bright); border-color: var(--venom); }
+
+/* ---------- email compose dialog ---------- */
+.adm-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000; /* above .fx-layer (9999), so click splatter stays behind it */
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(5, 3, 10, .88);
+  backdrop-filter: blur(8px);
+  overflow-y: auto;
+}
+.adm-modal-panel {
+  width: min(620px, 100%);
+  display: grid;
+  gap: 16px;
+  padding: 30px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, var(--panel-2), rgba(11, 6, 22, .95));
+  box-shadow: 0 0 46px rgba(176, 38, 255, .22);
+}
+.adm-modal-panel h2 {
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.adm-modal-panel h2 .accent { color: var(--venom-bright); }
+.adm-modal-to {
+  margin: -10px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.adm-field { display: grid; gap: 6px; }
+.adm-field > span {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--venom-bright);
+}
+.adm-field input,
+.adm-field textarea {
+  width: 100%;
+  background: rgba(5, 3, 10, .7);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  resize: vertical;
+}
+.adm-field input:focus,
+.adm-field textarea:focus {
+  outline: none;
+  border-color: var(--venom);
+  box-shadow: 0 0 18px rgba(176, 38, 255, .25);
+}
+.adm-modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.adm-modal-actions .btn { padding: 10px 22px; font-size: 14px; }
+.adm-modal-actions .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }

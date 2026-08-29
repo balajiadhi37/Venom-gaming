@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import BookingsTable from "./BookingsTable";
+import EmailDialog from "./EmailDialog";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -44,7 +45,9 @@ export default function AdminDashboard() {
 
   const [loading, setLoading] = useState(false);
   const [busyId, setBusyId] = useState("");
+  const [emailFor, setEmailFor] = useState(null);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
 
   // Pick the key back up on a reload so a refresh does not log you out.
   useEffect(() => {
@@ -65,6 +68,7 @@ export default function AdminDashboard() {
 
     setLoading(true);
     setError("");
+    setNotice("");
 
     const query = new URLSearchParams({ limit: String(PAGE_SIZE), page: String(page) });
     if (filter !== "all") query.set("status", filter);
@@ -137,6 +141,16 @@ export default function AdminDashboard() {
     } finally {
       setBusyId("");
     }
+  }
+
+  /** Throws on failure so EmailDialog can show the reason inline. */
+  async function sendEmail(booking, draft) {
+    const data = await apiFetch(`/api/bookings/${booking.id}/email`, adminKey, {
+      method: "POST",
+      body: JSON.stringify({ subject: draft.subject, body: draft.body }),
+    });
+    setError("");
+    setNotice(data.message || `Email sent to ${booking.email}`);
   }
 
   async function remove(id, name) {
@@ -224,6 +238,7 @@ export default function AdminDashboard() {
       </div>
 
       {error && <p className="adm-error">{error}</p>}
+      {notice && <p className="adm-notice">{notice}</p>}
 
       <BookingsTable
         items={items}
@@ -231,7 +246,16 @@ export default function AdminDashboard() {
         busyId={busyId}
         onUpdateStatus={updateStatus}
         onDelete={remove}
+        onEmail={setEmailFor}
       />
+
+      {emailFor && (
+        <EmailDialog
+          booking={emailFor}
+          onClose={() => setEmailFor(null)}
+          onSend={sendEmail}
+        />
+      )}
 
       {meta.pages > 1 && (
         <nav className="adm-pager">

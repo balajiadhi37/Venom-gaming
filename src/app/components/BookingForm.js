@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const EMPTY = { name: "", phone: "", platform: "PS5", message: "" };
+const EMPTY = { name: "", phone: "", email: "", platform: "PS5", message: "" };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -63,6 +63,14 @@ export default function BookingForm() {
         value={form.phone}
         onChange={(e) => update("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
         pattern="[0-9]{10}"
+        required
+      />
+      <input
+        type="email"
+        placeholder="Email address"
+        value={form.email}
+        onChange={(e) => update("email", e.target.value)}
+        maxLength={120}
         required
       />
       <select value={form.platform} onChange={(e) => update("platform", e.target.value)}>

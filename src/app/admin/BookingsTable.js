@@ -13,7 +13,14 @@ function formatDate(value) {
   return Number.isNaN(date.getTime()) ? "—" : dateFormat.format(date);
 }
 
-export default function BookingsTable({ items, loading, busyId, onUpdateStatus, onDelete }) {
+export default function BookingsTable({
+  items,
+  loading,
+  busyId,
+  onUpdateStatus,
+  onDelete,
+  onEmail,
+}) {
   if (!loading && items.length === 0) {
     return <p className="adm-empty">No booking requests here yet.</p>;
   }
@@ -26,6 +33,7 @@ export default function BookingsTable({ items, loading, busyId, onUpdateStatus, 
             <th>Received</th>
             <th>Name</th>
             <th>Phone</th>
+            <th>Email</th>
             <th>Seat</th>
             <th>Message</th>
             <th>Status</th>
@@ -44,6 +52,15 @@ export default function BookingsTable({ items, loading, busyId, onUpdateStatus, 
                   <a className="adm-phone" href={`tel:${booking.phone.replace(/\s+/g, "")}`}>
                     {booking.phone}
                   </a>
+                </td>
+                <td>
+                  {booking.email ? (
+                    <a className="adm-phone" href={`mailto:${booking.email}`}>
+                      {booking.email}
+                    </a>
+                  ) : (
+                    <span className="adm-dim">&mdash;</span>
+                  )}
                 </td>
                 <td>
                   <span className="tag">{booking.platform}</span>
@@ -83,6 +100,15 @@ export default function BookingsTable({ items, loading, busyId, onUpdateStatus, 
                       Reopen
                     </button>
                   )}
+                  <button
+                    type="button"
+                    className="adm-btn is-email"
+                    onClick={() => onEmail(booking)}
+                    disabled={busy || !booking.email}
+                    title={booking.email ? `Email ${booking.email}` : "No email on this booking"}
+                  >
+                    Email
+                  </button>
                   <button
                     type="button"
                     className="adm-btn is-delete"

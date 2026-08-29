@@ -10,6 +10,13 @@ const STATUSES = ["pending", "confirmed", "cancelled"];
 const PHONE_PATTERN = /^[0-9]{10}$/;
 const PHONE_MESSAGE = "Phone number must be exactly 10 digits";
 
+// Deliberately permissive: one @, no whitespace, a dot in the domain. Stricter
+// patterns reject real addresses for no benefit — the real test is whether mail
+// to it bounces. Kept in sync with the email input in BookingForm.js.
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_MESSAGE = "Email address is not valid";
+const EMAIL_MAX = 120;
+
 const bookingSchema = new mongoose.Schema(
   {
     name: {
@@ -24,6 +31,14 @@ const bookingSchema = new mongoose.Schema(
       required: [true, "Phone number is required"],
       trim: true,
       match: [PHONE_PATTERN, PHONE_MESSAGE],
+    },
+    email: {
+      type: String,
+      required: [true, "Email address is required"],
+      trim: true,
+      lowercase: true,
+      maxlength: [EMAIL_MAX, `Email must be at most ${EMAIL_MAX} characters`],
+      match: [EMAIL_PATTERN, EMAIL_MESSAGE],
     },
     platform: {
       type: String,
@@ -66,3 +81,6 @@ module.exports.PLATFORMS = PLATFORMS;
 module.exports.STATUSES = STATUSES;
 module.exports.PHONE_PATTERN = PHONE_PATTERN;
 module.exports.PHONE_MESSAGE = PHONE_MESSAGE;
+module.exports.EMAIL_PATTERN = EMAIL_PATTERN;
+module.exports.EMAIL_MESSAGE = EMAIL_MESSAGE;
+module.exports.EMAIL_MAX = EMAIL_MAX;

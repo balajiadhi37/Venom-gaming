@@ -1,5 +1,6 @@
 const Booking = require("../models/Booking");
 const { sendBookingAcknowledgement } = require("../services/whatsapp");
+const { sendMail } = require("../services/mailer");
 
 const asyncHandler = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
 
@@ -80,8 +81,43 @@ const deleteBooking = asyncHandler(async (req, res) => {
   return res.json({ success: true, message: "Booking deleted" });
 });
 
+/** POST /api/bookings/:id/email — admin. Emails the customer about their slot. */
+const emailBooking = asyncHandler(async (req, res) => {
+  const booking = await Booking.findById(req.params.id);
+
+  if (!booking) {
+    return res.status(404).json({ success: false, message: "Booking not found" });
+  }
+  if (!booking.email) {
+    // Bookings taken before the email field existed have nothing to send to.
+    return res.status(422).json({
+      success: false,
+      message: "This booking has no email address on file",
+    });
+  }
+
+  try {
+    // Awaited on purpose, unlike the WhatsApp acknowledgement: an admin pressed
+    // send and is waiting to be told whether it actually went out.
+    const result = await sendMail({
+      to: booking.email,
+      subject: req.mail.subject,
+      text: req.mail.text,
+    });
+
+    return res.json({ success: true, message: `Email sent to ${booking.email}`, data: result });
+  } catch (err) {
+    console.error(`Email to ${booking.email} failed:`, err.message);
+    return res.status(err.statusCode || 502).json({
+      success: false,
+      message: err.statusCode === 503 ? err.message : "Could not send the email. Check the SMTP settings.",
+    });
+  }
+});
+
 module.exports = {
   createBooking,
+  emailBooking,
   listBookings,
   getBooking,
   updateBookingStatus,

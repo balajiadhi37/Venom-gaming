@@ -2,7 +2,11 @@ const express = require("express");
 const rateLimit = require("express-rate-limit");
 
 const controller = require("../controllers/bookingController");
-const { validateBookingPayload, validateStatusPayload } = require("../middleware/validateBooking");
+const {
+  validateBookingPayload,
+  validateStatusPayload,
+  validateEmailPayload,
+} = require("../middleware/validateBooking");
 const { requireAdmin } = require("../middleware/requireAdmin");
 
 const router = express.Router();
@@ -21,6 +25,7 @@ router.post("/", createLimiter, validateBookingPayload, controller.createBooking
 router.get("/", requireAdmin, controller.listBookings);
 router.get("/:id", requireAdmin, controller.getBooking);
 router.patch("/:id/status", requireAdmin, validateStatusPayload, controller.updateBookingStatus);
+router.post("/:id/email", requireAdmin, validateEmailPayload, controller.emailBooking);
 router.delete("/:id", requireAdmin, controller.deleteBooking);
 
 module.exports = router;
