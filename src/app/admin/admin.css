@@ -19,12 +19,10 @@
   margin: 0 0 8px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  text-shadow: 0 0 24px rgba(29, 111, 232, .35);
 }
 .adm h1 .accent,
 .adm-gate h1 .accent {
   color: var(--tech-bright);
-  text-shadow: 0 0 16px rgba(56, 189, 248, .6);
 }
 .adm-sub { color: var(--muted); margin: 0; }
 
@@ -40,7 +38,7 @@
   border-radius: var(--radius);
   background: linear-gradient(160deg, var(--panel-2), rgba(10, 16, 28, .85));
   padding: 32px;
-  box-shadow: 0 0 46px rgba(29, 111, 232, .18);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .5);
 }
 .adm-gate-note { color: var(--muted); font-size: 14px; margin: 0; }
 .adm-gate-note code {
@@ -82,7 +80,6 @@
   font-size: 34px;
   line-height: 1.1;
   color: var(--tech-bright);
-  text-shadow: 0 0 16px rgba(56, 189, 248, .5);
 }
 .adm-stat span {
   font-size: 12px;
@@ -90,8 +87,8 @@
   text-transform: uppercase;
   color: var(--muted);
 }
-.adm-stat.is-confirmed strong { color: #4ade80; text-shadow: 0 0 16px rgba(74, 222, 128, .4); }
-.adm-stat.is-cancelled strong { color: #f87171; text-shadow: 0 0 16px rgba(248, 113, 113, .4); }
+.adm-stat.is-confirmed strong { color: #4ade80; }
+.adm-stat.is-cancelled strong { color: #f87171; }
 
 .adm-filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
 .adm-filters .filter-btn { text-transform: capitalize; }
@@ -235,7 +232,7 @@
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
   background: linear-gradient(160deg, var(--panel-2), rgba(10, 16, 28, .95));
-  box-shadow: 0 0 46px rgba(29, 111, 232, .22);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .6);
 }
 .adm-modal-panel h2 {
   margin: 0;
@@ -272,7 +269,7 @@
 .adm-field textarea:focus {
   outline: none;
   border-color: var(--tech);
-  box-shadow: 0 0 18px rgba(29, 111, 232, .25);
+  box-shadow: 0 0 0 3px rgba(29, 111, 232, .3);
 }
 .adm-modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
 .adm-modal-actions .btn { padding: 10px 22px; font-size: 14px; }
