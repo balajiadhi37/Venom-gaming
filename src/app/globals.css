@@ -135,12 +135,27 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   height: 70px;
   gap: 16px;
 }
+/* The lockup is a button — it opens the logo image rather than navigating — so
+   strip the native chrome. Never add `font: inherit` here: it would clobber the
+   --display face this picks up from the h1/h2/h3/.logo group rule above. */
 .logo {
   display: flex;
   align-items: center;
   gap: 12px;
   font-size: 22px;
   letter-spacing: 3px;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  line-height: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.logo:focus-visible {
+  outline: 2px solid var(--venom-bright);
+  outline-offset: 4px;
+  border-radius: 10px;
 }
 .logo-mark {
   width: 36px; height: 36px;
@@ -164,6 +179,62 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 }
 .nav a { transition: color .15s ease, text-shadow .15s ease; }
 .nav a:hover { color: var(--venom-bright); text-shadow: 0 0 12px rgba(217, 70, 239, .6); }
+
+/* ---------- logo lightbox ---------- */
+/* Sits above .fx-layer (9999) so click splatter never lands on the artwork. */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(5, 3, 10, .88);
+  backdrop-filter: blur(8px);
+}
+.lightbox-panel {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding: 28px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, var(--panel-2), rgba(11, 6, 22, .85));
+  box-shadow: 0 0 46px rgba(176, 38, 255, .28);
+}
+/* max-* only ever shrinks. With no width/height set the image renders at its
+   intrinsic size, so the 100x100 logo stays crisp and is never blown up —
+   while a larger logo.jpg later would still be capped to fit the viewport. */
+.lightbox-img {
+  max-width: min(100%, 80vw);
+  max-height: 70vh;
+  border-radius: 10px;
+}
+.lightbox-caption {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 18px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--venom-bright);
+  text-shadow: 0 0 14px rgba(217, 70, 239, .5);
+}
+.lightbox-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.lightbox-close:hover { border-color: var(--venom); color: var(--venom-bright); }
 
 /* ---------- hero ---------- */
 .hero {

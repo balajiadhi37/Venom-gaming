@@ -1,15 +1,10 @@
-import { STUDIO } from "../data1";
+import Logo from "./Logo";
 
 export default function Header() {
   return (
     <header className="header">
       <div className="container header-inner">
-        <a className="logo" href="#top">
-          <img className="logo-mark" src={STUDIO.logo} alt="" width="36" height="36" />
-          <span>
-            VENOM <span className="accent">GAMING ARENA</span>
-          </span>
-        </a>
+        <Logo />
         <nav className="nav">
           <a href="#setups">Setups</a>
           <a href="#games">Games</a>
