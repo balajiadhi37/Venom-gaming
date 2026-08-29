@@ -4,6 +4,12 @@ const mongoose = require("mongoose");
 const PLATFORMS = ["PS5", "PC", "Squad", "Event"];
 const STATUSES = ["pending", "confirmed", "cancelled"];
 
+// Phone numbers are normalised to bare digits by validateBooking.js before they
+// get here, so the pattern only has to count digits — no separators to allow.
+// Kept in sync with the phone input in src/app/components/BookingForm.js
+const PHONE_PATTERN = /^[0-9]{10}$/;
+const PHONE_MESSAGE = "Phone number must be exactly 10 digits";
+
 const bookingSchema = new mongoose.Schema(
   {
     name: {
@@ -17,8 +23,7 @@ const bookingSchema = new mongoose.Schema(
       type: String,
       required: [true, "Phone number is required"],
       trim: true,
-      // Digits, spaces and the usual separators; 8-15 digits after cleaning.
-      match: [/^[0-9+\-\s()]{8,20}$/, "Phone number is not valid"],
+      match: [PHONE_PATTERN, PHONE_MESSAGE],
     },
     platform: {
       type: String,
@@ -59,3 +64,5 @@ bookingSchema.index({ createdAt: -1 });
 module.exports = mongoose.model("Booking", bookingSchema);
 module.exports.PLATFORMS = PLATFORMS;
 module.exports.STATUSES = STATUSES;
+module.exports.PHONE_PATTERN = PHONE_PATTERN;
+module.exports.PHONE_MESSAGE = PHONE_MESSAGE;

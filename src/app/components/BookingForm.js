@@ -54,11 +54,15 @@ export default function BookingForm() {
         onChange={(e) => update("name", e.target.value)}
         required
       />
+      {/* The onChange strip is the 10-digit cap. Do not add maxLength: it counts
+          characters, so pasting "98765 43210" would lose a digit before we see it. */}
       <input
         type="tel"
+        inputMode="numeric"
         placeholder="Phone number"
         value={form.phone}
-        onChange={(e) => update("phone", e.target.value)}
+        onChange={(e) => update("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
+        pattern="[0-9]{10}"
         required
       />
       <select value={form.platform} onChange={(e) => update("platform", e.target.value)}>

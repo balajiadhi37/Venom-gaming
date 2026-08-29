@@ -1,4 +1,4 @@
-const { PLATFORMS, STATUSES } = require("../models/Booking");
+const { PLATFORMS, STATUSES, PHONE_PATTERN, PHONE_MESSAGE } = require("../models/Booking");
 
 const isString = (value) => typeof value === "string";
 
@@ -12,15 +12,16 @@ function validateBookingPayload(req, res, next) {
   const errors = [];
 
   const name = isString(body.name) ? body.name.trim() : "";
-  const phone = isString(body.phone) ? body.phone.trim() : "";
+  // Drop separators so "98765 43210" and "(98765) 43210" are judged on their digits.
+  const phone = isString(body.phone) ? body.phone.replace(/\D/g, "") : "";
   const platform = isString(body.platform) ? body.platform.trim() : "PS5";
   const message = isString(body.message) ? body.message.trim() : "";
 
   if (name.length < 2 || name.length > 80) {
     errors.push("Name must be between 2 and 80 characters");
   }
-  if (!/^[0-9+\-\s()]{8,20}$/.test(phone)) {
-    errors.push("Phone number is not valid");
+  if (!PHONE_PATTERN.test(phone)) {
+    errors.push(PHONE_MESSAGE);
   }
   if (!PLATFORMS.includes(platform)) {
     errors.push(`Platform must be one of: ${PLATFORMS.join(", ")}`);
