@@ -1,11 +1,16 @@
 export const STUDIO = {
-  name: "Venom Gaming chennai",
-  tagline: "PS5 & PC gaming, the way it was meant to be played.",
+  // Confirmed from the Google Business listing and the Instagram profile.
+  name: "Venom Gaming Arena",
+  logo: "/logo.jpg",
+  tagline: "PS5 and sim racing, the way it was meant to be played.",
+  address: "Mylapore, Chennai",
+  instagram: "@_venom_gaming_arena_",
+  instagramUrl: "https://www.instagram.com/_venom_gaming_arena_/",
+  // TODO: still placeholders — replace with the real door number, street,
+  // pincode, phone, email and opening hours from the Google listing.
   phone: "+91 98765 43210",
   email: "hello@venomgaming.com",
-  address: "No. 24, Ground Floor, Main Road, Coimbatore",
   hours: "Every day, 10:00 AM - 11:00 PM",
-  instagram: "@venomgaming",
 };
 
 export const STATS = [
@@ -36,16 +41,78 @@ export const SETUPS = [
   },
 ];
 
+// `image` points at real, publicly-hosted cover art: Steam's store headers for
+// the titles that ship there, plus official key art from the Epic Games Store
+// (Valorant) and the PlayStation Store (Gran Turismo 7). `poster` is the
+// locally generated fallback used if a remote image fails to load.
+const STEAM = (appId) => `https://cdn.cloudflare.steamstatic.com/steam/apps/${appId}/header.jpg`;
+
 export const GAMES = [
-  { name: "EA FC 25", art: "⚽", platform: "PS5", note: "1v1 and 2v2 couch matches" },
-  { name: "Call of Duty: Warzone", art: "\u{1F52B}", platform: "PC", note: "Squad up on 240Hz rigs" },
-  { name: "God of War Ragnarok", art: "\u{1FA93}", platform: "PS5", note: "Full story mode saves" },
-  { name: "Valorant", art: "\u{1F3AF}", platform: "PC", note: "Ranked practice station" },
-  { name: "Spider-Man 2", art: "\u{1F577}️", platform: "PS5", note: "4K 120Hz performance mode" },
-  { name: "GTA V Online", art: "\u{1F697}", platform: "Both", note: "Crew sessions every evening" },
-  { name: "Tekken 8", art: "\u{1F44A}", platform: "Both", note: "Arcade sticks available" },
-  { name: "Elden Ring", art: "⚔️", platform: "Both", note: "Co-op boss runs" },
-  { name: "Gran Turismo 7", art: "\u{1F3CE}️", platform: "PS5", note: "Racing wheel setup" },
+  {
+    name: "EA FC 25",
+    image: STEAM(2669320),
+    poster: "/games/ea-fc-25.svg",
+    platform: "PS5",
+    note: "1v1 and 2v2 couch matches",
+  },
+  {
+    name: "Call of Duty: Warzone",
+    image: STEAM(1938090),
+    poster: "/games/warzone.svg",
+    platform: "PC",
+    note: "Squad up on 240Hz rigs",
+  },
+  {
+    name: "God of War Ragnarok",
+    image: STEAM(2322010),
+    poster: "/games/god-of-war.svg",
+    platform: "PS5",
+    note: "Full story mode saves",
+  },
+  {
+    name: "Valorant",
+    image:
+      "https://cdn2.unrealengine.com/egs-valorant-riotgames-s1-2560x1440-4742836df9eb.jpg",
+    poster: "/games/valorant.svg",
+    platform: "PC",
+    note: "Ranked practice station",
+  },
+  {
+    name: "Spider-Man 2",
+    image: STEAM(2651280),
+    poster: "/games/spider-man-2.svg",
+    platform: "PS5",
+    note: "4K 120Hz performance mode",
+  },
+  {
+    name: "GTA V Online",
+    image: STEAM(271590),
+    poster: "/games/gta-v.svg",
+    platform: "Both",
+    note: "Crew sessions every evening",
+  },
+  {
+    name: "Tekken 8",
+    image: STEAM(1778820),
+    poster: "/games/tekken-8.svg",
+    platform: "Both",
+    note: "Arcade sticks available",
+  },
+  {
+    name: "Elden Ring",
+    image: STEAM(1245620),
+    poster: "/games/elden-ring.svg",
+    platform: "Both",
+    note: "Co-op boss runs",
+  },
+  {
+    name: "Gran Turismo 7",
+    image:
+      "https://image.api.playstation.com/vulcan/ap/rnd/202109/1321/yZ7dpmjtHr1olhutHT57IFRh.png",
+    poster: "/games/gran-turismo-7.svg",
+    platform: "PS5",
+    note: "Racing wheel setup",
+  },
 ];
 
 export const PLANS = [

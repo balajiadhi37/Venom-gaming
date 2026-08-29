@@ -8,7 +8,10 @@ export default function Footer() {
           © {new Date().getFullYear()} {STUDIO.name}. All rights reserved.
         </span>
         <span>
-          {STUDIO.instagram} · {STUDIO.phone}
+          <a href={STUDIO.instagramUrl} target="_blank" rel="noreferrer">
+            {STUDIO.instagram}
+          </a>{" "}
+          · {STUDIO.phone}
         </span>
       </div>
     </footer>

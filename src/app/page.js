@@ -17,9 +17,9 @@ export default function Home() {
           <SpiderWeb className="web-tr" />
           <div className="container">
             <div className="hero-inner">
-              <span className="eyebrow">PS5 · Gaming PC · Chennai</span>
+              <span className="eyebrow">PS5 · Sim Racing · Mylapore, Chennai</span>
               <h1>
-                Enter the <span className="accent">Venom</span> gaming studio.
+                Enter the <span className="accent" data-text="Venom">Venom</span> gaming studio.
               </h1>
               <p>
                 {STUDIO.tagline} Eight PlayStation 5 consoles, twelve RTX battle stations and a
@@ -49,7 +49,7 @@ export default function Home() {
         {/* ---------- setups ---------- */}
         <section className="section alt" id="setups">
           <div className="container">
-            <div className="section-head">
+            <div className="section-head reveal">
               <h2>What we run</h2>
               <p>
                 Two zones, one studio. Console players get the couch and the big screen; PC players
@@ -58,7 +58,7 @@ export default function Home() {
             </div>
             <div className="grid-3">
               {SETUPS.map((setup) => (
-                <article className="card" key={setup.title}>
+                <article className="card reveal" key={setup.title}>
                   <div className="card-icon">{setup.icon}</div>
                   <h3>{setup.title}</h3>
                   <p>{setup.text}</p>
@@ -82,14 +82,14 @@ export default function Home() {
         <section className="section alt" id="pricing">
           <SpiderWeb className="web-br" />
           <div className="container">
-            <div className="section-head">
+            <div className="section-head reveal">
               <h2>Simple hourly pricing</h2>
               <p>No membership fees, no hidden charges. Pay for the time you play.</p>
             </div>
             <div className="grid-3">
               {PLANS.map((plan) => (
                 <article
-                  className={`card price-card${plan.featured ? " featured" : ""}`}
+                  className={`card price-card reveal${plan.featured ? " featured" : ""}`}
                   key={plan.name}
                 >
                   {plan.badge && <span className="price-badge">{plan.badge}</span>}
@@ -114,7 +114,7 @@ export default function Home() {
         {/* ---------- contact ---------- */}
         <section className="section" id="contact">
           <div className="container">
-            <div className="section-head">
+            <div className="section-head reveal">
               <h2>Book a seat</h2>
               <p>
                 Drop your details and we will hold your station. Walk-ins are welcome too, but
@@ -122,7 +122,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="contact-grid">
+            <div className="contact-grid reveal">
               <div>
                 <div className="info-row">
                   <span className="label">Studio</span>
