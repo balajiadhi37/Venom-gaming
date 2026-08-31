@@ -28,6 +28,13 @@
   --radius: 10px;
   --max: 1150px;
   --display: var(--font-display), "Arial Narrow", Impact, sans-serif;
+
+  /* PS controller cursors, 32x32. Both share one hotspot on the top-left
+     shoulder so the pointer does not jump when it crosses a link. The
+     trailing keyword is the fallback: if the PNG 404s or the platform
+     refuses image cursors, the pointer still changes shape correctly. */
+  --cursor-default: url("/cursors/gamepad.png") 4 10, auto;
+  --cursor-active: url("/cursors/gamepad-active.png") 4 10, pointer;
   /* Machine voice for labels, badges and readouts. */
   --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
 }
@@ -95,6 +102,36 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   padding: 0 20px;
 }
 
+/* ---------- cursor ---------- */
+html { cursor: var(--cursor-default); }
+
+a,
+button,
+summary,
+label,
+select,
+[role="button"] {
+  cursor: var(--cursor-active);
+}
+
+/* Text entry keeps the caret — a controller over a field hides the insertion
+   point — and disabled controls keep the standard refusal cursor. */
+input:not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
+textarea {
+  cursor: text;
+}
+:disabled,
+[aria-disabled="true"] { cursor: not-allowed; }
+
+/* Touch and pen have no cursor to style, so drop back to the defaults and
+   skip the image downloads entirely. */
+@media (hover: none), (pointer: coarse) {
+  :root {
+    --cursor-default: auto;
+    --cursor-active: pointer;
+  }
+}
+
 /* ---------- spider webs ---------- */
 .web {
   position: absolute;
@@ -119,7 +156,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   border: 1px solid transparent;
-  cursor: pointer;
+  cursor: var(--cursor-active);
   transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
 }
 .btn:hover { transform: translateY(-2px); }
@@ -171,7 +208,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   color: inherit;
   line-height: inherit;
   text-align: left;
-  cursor: pointer;
+  cursor: var(--cursor-active);
 }
 .logo:focus-visible {
   outline: 2px solid var(--tech-bright);
@@ -200,7 +237,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 .nav a:hover { color: var(--tech-bright); }
 
 /* ---------- logo lightbox ---------- */
-/* Sits above .fx-layer (9999) so click sparks never land on the artwork. */
+/* Tops every other layer on the page. */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -250,7 +287,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   color: var(--text);
   font-size: 20px;
   line-height: 1;
-  cursor: pointer;
+  cursor: var(--cursor-active);
 }
 .lightbox-close:hover { border-color: var(--tech); color: var(--tech-bright); }
 
@@ -417,7 +454,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   border-radius: var(--radius);
   background: linear-gradient(160deg, var(--panel-2), rgba(10, 16, 28, .85));
   overflow: hidden;
-  cursor: pointer;
+  cursor: var(--cursor-active);
   outline: none;
   transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
 }
@@ -429,7 +466,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 }
 .game-card:focus-visible { border-color: var(--tech-bright); }
 
-/* Pointer-tracked spotlight, driven by --mx / --my from ClickFX. */
+/* Pointer-tracked spotlight, driven by --mx / --my from PointerSpotlight. */
 .card::before,
 .game-card::before {
   content: "";
@@ -525,7 +562,7 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
   font-size: 14px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  cursor: pointer;
+  cursor: var(--cursor-active);
   transition: all .15s ease;
 }
 .filter-btn:hover { color: var(--text); border-color: var(--tech); }
@@ -645,62 +682,10 @@ h1, h2, h3, .logo, .price, .stat strong, .btn, .filter-btn {
 }
 
 /* ============================================================
-   CLICK EFFECTS — energy pulse, ripples and press feedback
+   PRESS FEEDBACK
    ============================================================ */
 
-/* Fixed layer the ClickFX component paints bursts into. */
-.fx-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  overflow: hidden;
-}
-.fx-burst { position: absolute; width: 0; height: 0; }
-
-/* Expanding shockwave ring. */
-.fx-ring {
-  position: absolute;
-  left: 0; top: 0;
-  width: 18px; height: 18px;
-  margin: -9px 0 0 -9px;
-  border-radius: 50%;
-  border: 2px solid var(--tech-bright);
-  animation: fx-ring .58s cubic-bezier(.2, .7, .3, 1) forwards;
-}
-@keyframes fx-ring {
-  0%   { transform: scale(.2); opacity: 1; }
-  70%  { opacity: .55; }
-  100% { transform: scale(5.2); opacity: 0; }
-}
-
-/* Droplets flung outward, each with its own angle/distance/size. */
-.fx-drop {
-  position: absolute;
-  left: 0; top: 0;
-  width: var(--s, 8px);
-  height: var(--s, 8px);
-  margin: calc(var(--s, 8px) / -2) 0 0 calc(var(--s, 8px) / -2);
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, var(--silver-bright), var(--tech-bright) 45%, var(--tech-deep));
-  transform: rotate(var(--a, 0deg)) translateX(0) scale(.3);
-  animation: fx-drop .72s cubic-bezier(.15, .75, .3, 1) forwards;
-}
-@keyframes fx-drop {
-  0%   { transform: rotate(var(--a)) translateX(0) scale(.3); opacity: 1; }
-  60%  { opacity: .9; }
-  100% { transform: rotate(var(--a)) translateX(var(--d, 50px)) scale(.15); opacity: 0; }
-}
-
-/* The clicked surface pulses blue for half a second. */
-.fx-pressed { animation: fx-pressed .5s ease-out; }
-@keyframes fx-pressed {
-  0%   { box-shadow: 0 0 0 0 rgba(56, 189, 248, .55); }
-  40%  { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
-}
-
-/* Physical press: everything clickable sinks a little. */
+/* Everything clickable sinks a little under the pointer. */
 .btn:active,
 .filter-btn:active,
 .game-card:active,

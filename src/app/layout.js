@@ -1,6 +1,6 @@
 import { Anton } from "next/font/google";
 import "./globals.css";
-import ClickFX from "./components/ClickFX";
+import PointerSpotlight from "./components/PointerSpotlight";
 
 // Heavy condensed poster face for headings, the logo and buttons.
 const display = Anton({
@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={display.variable}>
       <body>
         {children}
-        <ClickFX />
+        <PointerSpotlight />
       </body>
     </html>
   );

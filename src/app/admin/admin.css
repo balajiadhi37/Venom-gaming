@@ -173,7 +173,7 @@
   border: 1px solid var(--line);
   background: rgba(29, 111, 232, .06);
   color: var(--muted);
-  cursor: pointer;
+  cursor: var(--cursor-active);
   transition: color .15s ease, border-color .15s ease, background .15s ease;
 }
 .adm-btn:hover:not(:disabled) { color: var(--text); border-color: var(--tech); }
@@ -216,7 +216,7 @@
 .adm-modal {
   position: fixed;
   inset: 0;
-  z-index: 10000; /* above .fx-layer (9999), so click sparks stay behind it */
+  z-index: 10000; /* tops every other layer on the page */
   display: grid;
   place-items: center;
   padding: 24px;
