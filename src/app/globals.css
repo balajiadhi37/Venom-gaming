@@ -132,21 +132,6 @@ textarea {
   }
 }
 
-/* ---------- spider webs ---------- */
-.web {
-  position: absolute;
-  width: 400px;
-  height: 400px;
-  stroke: var(--silver);
-  stroke-width: 1.1;
-  fill: none;
-  pointer-events: none;
-  z-index: 1;
-}
-.web-tl { top: -60px; left: -70px; opacity: .28; }
-.web-tr { top: -40px; right: -80px; transform: scaleX(-1); opacity: .2; }
-.web-br { bottom: -90px; right: -60px; transform: scale(-1, -1); opacity: .16; }
-
 /* ---------- buttons ---------- */
 .btn {
   display: inline-block;
@@ -297,23 +282,68 @@ textarea {
   padding: 104px 0 88px;
   min-height: min(86vh, 800px);
   overflow: hidden;
+  isolation: isolate;
 }
-/* Cover art behind the headline (public/hero.jpg). The scrim is
-   heaviest on the left so the copy stays readable while the figure looms. */
+
+/* The pointer-tracked art layers (HeroScene). The listener lives on .hero
+   itself, so the scene never swallows a click meant for the buttons. */
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 1200px;
+  perspective-origin: 50% 42%;
+  contain: paint;
+}
+
+/* Oversized so a 40px slide plus a 9deg turn never drags an edge into frame. */
+.hero-plate,
+.hero-figure {
+  position: absolute;
+  inset: -6%;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.hero-layer-img { object-fit: cover; object-position: center 34%; }
+
+.hero-plate { z-index: 0; }
+
+/* The blue bloom, formerly the middle background layer. It leads the pointer,
+   so the light appears to come from wherever you are looking. */
+.hero-bloom {
+  position: absolute;
+  inset: -10%;
+  z-index: 1;
+  will-change: transform;
+  background: radial-gradient(64% 58% at 60% 42%, rgba(29, 111, 232, .22), transparent 70%);
+}
+
+/* Venom. The pivot sits low, at the waterline, so his head swings the full
+   travel while his submerged waist barely moves — which is how a body
+   actually turns. The mask dissolves the cutout into the plate's water so the
+   sliding contact line never shows a seam. */
+.hero-figure {
+  z-index: 2;
+  transform-origin: 50% 82%;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0 68%,
+                                      rgba(0, 0, 0, .55) 84%, transparent 97%);
+          mask-image: linear-gradient(to bottom, #000 0 68%,
+                                      rgba(0, 0, 0, .55) 84%, transparent 97%);
+}
+
+/* Readability scrim, above the art. Directional: heavy on the left where the
+   headline sits, near-clear on the right so the figure stays sharp. */
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
   background-image:
     linear-gradient(102deg, rgba(5, 8, 15, .95) 0%, rgba(5, 8, 15, .84) 34%,
-                    rgba(5, 8, 15, .58) 64%, rgba(5, 8, 15, .48) 100%),
-    radial-gradient(64% 58% at 60% 42%, rgba(29, 111, 232, .22), transparent 70%),
-    url("/hero.jpg");
-  background-repeat: no-repeat;
-  background-size: cover, cover, cover;
-  background-position: center, center, center 34%;
+                    rgba(5, 8, 15, .42) 62%, rgba(5, 8, 15, .12) 100%);
 }
 /* Fade the art out into the section below it. */
 .hero::after {
@@ -321,7 +351,7 @@ textarea {
   position: absolute;
   inset: auto 0 0 0;
   height: 200px;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
   background: linear-gradient(to bottom, transparent, var(--bg));
 }
@@ -663,22 +693,19 @@ textarea {
   .grid-3, .stats { grid-template-columns: repeat(2, 1fr); }
   .contact-grid { grid-template-columns: 1fr; }
   .nav { display: none; }
-  .web { width: 280px; height: 280px; }
 }
 @media (max-width: 560px) {
   .logo { font-size: 16px; letter-spacing: 1.5px; }
   .hero { min-height: auto; }
   .hero::before {
     background-image:
-      linear-gradient(to bottom, rgba(5, 8, 15, .82) 0%, rgba(5, 8, 15, .9) 55%,
-                      rgba(5, 8, 15, .96) 100%),
-      url("/hero.jpg");
-    background-size: cover, cover;
-    background-position: center, center 28%;
+      linear-gradient(to bottom, rgba(5, 8, 15, .74) 0%, rgba(5, 8, 15, .88) 55%,
+                      rgba(5, 8, 15, .96) 100%);
   }
+  .hero-layer-img { object-position: center 28%; }
+  .hero-scene { perspective-origin: 50% 34%; }
   .grid-2, .grid-3, .stats { grid-template-columns: 1fr; }
   .section { padding: 64px 0; }
-  .web-tr, .web-br { display: none; }
 }
 
 /* ============================================================
@@ -691,6 +718,24 @@ textarea {
 .game-card:active,
 .card:active,
 .stat:active { transform: translateY(1px) scale(.98); }
+
+/* ---------- hero entrance ---------- */
+/* CSS rather than Framer so the copy stays in the server-rendered HTML. The
+   h1 delay stays short because it is the LCP text candidate. */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+.hero-inner > *,
+.hero .stats {
+  animation: hero-rise .7s cubic-bezier(.22, .8, .28, 1) both;
+  animation-delay: var(--d, 0s);
+}
+.hero-inner .eyebrow { --d: .05s; }
+.hero-inner h1       { --d: .15s; }
+.hero-inner p        { --d: .28s; }
+.hero-actions        { --d: .40s; }
+.hero .stats         { --d: .52s; }
 
 /* ---------- headline motion ---------- */
 .hero h1 .accent {
@@ -716,15 +761,6 @@ textarea {
   96%  { transform: translate(-2px, 2px); opacity: .7; }
 }
 
-/* Webs drift slowly, like silk in a draught. */
-.web { animation: web-drift 14s ease-in-out infinite alternate; }
-.web-tr { animation-delay: -5s; }
-.web-br { animation-delay: -9s; }
-@keyframes web-drift {
-  from { translate: 0 0; }
-  to   { translate: 8px 10px; }
-}
-
 /* ---------- scroll reveal ---------- */
 /* Scroll-driven, so no JS. Browsers without support just show the content. */
 @supports (animation-timeline: view()) {
@@ -747,4 +783,7 @@ textarea {
     animation: none !important;
   }
   .reveal { opacity: 1 !important; transform: none !important; }
+  /* HeroScene writes transforms via JS, which the wildcard above cannot
+     reach. The component gates itself too; this is the second lock. */
+  .hero-plate, .hero-figure, .hero-bloom { transform: none !important; }
 }
